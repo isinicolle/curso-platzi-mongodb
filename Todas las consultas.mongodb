@@ -1,0 +1,564 @@
+//Crear un usaurio
+
+db.createUser
+(
+  {
+    user: "Isis",
+    pwd: "123",
+    roles: ["readWrite"],["dbAdmin"]
+  }
+)
+
+
+//Insertar
+db.Usuarios.insert()
+
+db.Usuarios.save()
+
+
+
+//select = from
+
+db.Usuarios.find()
+db.Videos.find()
+
+//Mostrar los primeros 2
+
+db.Usuarios.find().limit(2).pretty()
+
+
+//mostrar el 3 y 4
+db.Usuarios.find().limit(2).skip(2).pretty()
+
+
+//todos
+db.Usuarios.find().pretty()
+
+
+//el primero que se creo
+db.Usuarios.findOne()
+
+db.Videos.findOne()
+
+//las lalves para poderlos ordenar por edad
+db.Usuarios.find({}).sort({Edad:1})
+
+//Ordenar de forma ascendente por edad el de arribba
+
+//Ordenar de forma descendente por apellido
+db.Usuarios.find({}).sort({Apellido:-1})
+
+//buscar por palabras especificas
+
+
+//donde los videos sean de risa
+db.Videos.find({"Etiquetas": "Risa"}).pretty() 
+
+//cuantos son de risa
+
+db.Videos.find({"Etiquetas": "Risa"}).count()
+
+
+//*mostrar el titulod el video donde no exista fecha de ingreso
+db.Videos.find({Fecha_ingreso:{$exists:false}},{"Titulo_del_video":true,"_id":false})
+
+
+//*mostrar el titulod el video donde SI exista fecha de ingreso
+db.Videos.find({Fecha_ingreso:{$exists:true}},{"Titulo_del_video":true,"_id":false})
+
+//mostrar los usuarios de choluteca y tegus
+db.Usuarios.find
+(
+  {
+    
+    $or:[ 
+    {
+      "Direccion.Ciudad":"Tegucigalpa"
+    },
+    {
+      "Direccion.Ciudad":"Choluteca"
+    }
+        ]
+  }
+)
+
+
+//cuantos son de tegucifalpa y choluteca
+
+db.Usuarios.find
+(
+  {
+    
+    $or:[ 
+    {
+      "Direccion.Ciudad":"Tegucigalpa"
+    },
+    {
+      "Direccion.Ciudad":"Choluteca"
+    }
+        ]
+  }
+).count()
+
+//del anterior solo mostrar los 3 primeros
+db.Usuarios.find
+(
+  {
+    
+    $or:[ 
+    {
+      "Direccion.Ciudad":"Tegucigalpa"
+    },
+    {
+      "Direccion.Ciudad":"Choluteca"
+    }
+        ]
+  }
+).limit(3)
+
+//mostrar los usuarios mayores de edad
+
+db.Usuarios.find({Edad:{$gte:18}}).pretty()
+
+//mostrar cuantos usuarios son mayores de edad
+
+db.Usuarios.find({Edad:{$gte:18}}).pretty().count()
+
+//mostrar los usuarios mayores de edad solo el nombre y apellido
+
+db.Usuarios.find({Edad:{$gte:18}},{nombre:1, apellido:1 , _id:0})
+
+
+//mostrar los usuarios menores de edad
+
+db.Usuarios.find({Edad:{$lte:18}}).pretty()
+
+//mostrar cuantos usuarios son menores de edad
+
+db.Usuarios.find({Edad:{$lte:18}}).pretty().count()
+
+//mostrar los usuarios menores de edad solo el nombre y apellido
+
+db.Usuarios.find({Edad:{$lte:18}},{nombre:1, apellido:1 , _id:0})
+
+
+//Mostrar losque estan entre 18 y 25 anios su apellido y su nombre
+db.Usuarios.find({Edad:{$gte:18,$lte:25}},{nombre:1, apellido:1 , _id:0})
+
+//la cantiddad de personas segun el enunciado anterior
+
+db.Usuarios.find({Edad:{$gte:18,$lte:25}},{nombre:1, apellido:1 , _id:0}).count()
+
+
+//mostrar los videos que se subieron a partir del 2012 hasta la actualidad
+
+db.Videos.find()
+
+db.Videos.find
+(
+  {
+    "Fecha_ingreso": {$gte: ISODate("2012-01-01")}
+  }
+).pretty()
+
+
+//mostrar los videos que se subieron a antes del 2012 hasta la actualidad
+
+
+db.Videos.find
+(
+  {
+    "Fecha_ingreso": {$lte: ISODate("2012-01-01")}
+  }
+).pretty()
+
+
+//mostrar los videos que estan entre 2001 y 2021
+
+db.Videos.find
+(
+  {
+    "Fecha_ingreso":
+    {
+      $gte: ISODate("2001-01-01"),
+      $lte:  ISODate("2021-01-01")
+    }
+  }
+)
+
+//mostrar un histograma con todas las edades basicamente XD
+db.Usuarios.aggregate
+(
+  [
+    {
+      $group:
+      {
+        _id: "$Edad",
+        count: {$sum:1}
+      }
+    }
+  ]
+)
+
+
+//actualizar un registor por el id
+
+db.Usuarios.find()
+
+db.Usuarios.update
+(
+  {
+      "_id": ObjectId("602079f7d2570724f81f821c")
+  }, {$set: { "nombre": "Liwian"}}
+)
+
+//MOSTRAR LA MUJER Y hombre mayores
+
+db.Usuarios.aggregate
+(
+  [
+    {
+      $group:
+      {
+        "_id":"$Sexo",
+        Edad_Maxima: {$max:"$Edad"}
+      }
+    }
+  ]
+)
+
+//Concatenar  los nombres de los primeros 3 empleados
+
+db.Usuarios.aggregate
+(
+  {
+    $project: {"_id":0,
+    Nombre_Empleado:
+    {
+      $concat:
+      [
+        "$nombre", " " , "$apellido"
+      
+      ]
+    }
+  
+    }
+  },
+  {
+    $sort: 
+    {
+      Nombre_Empleado:1
+    }
+  },
+  {
+    $limit : 3
+  }
+)
+
+
+
+//Hacer a mi mente la tarea aqui
+
+//-mostrar los usuarios que se encuentran en la posición 4,5 y 6
+
+db.Usuarios.find().limit(3).skip(3)
+
+//Mostrar el título del video, la descripción menos el id
+
+db.Videos.find({Titulo_del_video:{$exists:true}},{"Titulo_del_video":true,"Descripcion_del_video":true ,"_id":false})
+
+//-se desea saber cuántos videos tienen fecha de ingreso
+
+db.Videos.find({Fecha_ingreso:{$exists : true}}).count()
+
+//-Mostrar solamente los títulos de los videos de forma ascendente
+
+db.Videos.find({Titulo_del_video:{$exists:true}},{"Titulo_del_video":true,"Descripcion_del_video":true ,"_id":false}).sort({Titulo_del_video:1})
+
+//- Tegucigalpa tiene el código postal 11101, Choluteca tiene el código postal 51101 por lo que se debe insertar estas ciudades en los usuarios al menos 1 de cada uno, se debe mostrar los usuarios que pertenecen a esos códigos postales.
+db.Usuarios.find()
+
+
+db.Usuarios.find
+(
+  {
+    
+    $or:[ 
+    {
+      "Direccion.CodigoPostal":"11101"
+    },
+    {
+      "Direccion.CodigoPostal":"51101"
+    }
+        ]
+  }
+)
+
+
+//- mostrar cuantos usuarios hay por ciudad
+
+db.Usuarios.aggregate
+(
+  [
+    {
+      $group:
+      {
+        _id: "$Direccion.Ciudad",
+        count: {$sum:1}
+      }
+    }
+  ]
+)
+
+//-mostrar el usuario máximo y mínimo de edad por ciudad (En la misma consulta)
+
+db.Usuarios.aggregate
+(
+  [
+    {
+      $group:
+      {
+        "_id":"$Direccion.Ciudad",
+        Edad_Maxima: {$max:"$Edad"},
+        Edad_Minima: {$max:"$Edad"},
+        
+      }
+    }
+  ]
+)
+
+
+//-mostrar en un campo llamado información donde sería la concatenación de: Nombre y apellido del usuario y ciudad con la colonia, donde se deben mostrar ordenados de forma ascendente pero solo mostrar los que se encuentran en la 3era y 4ta posición
+
+db.Usuarios.aggregate
+(
+  {
+    $project: {"_id":0,
+    Informacion:
+    {
+      $concat:
+      ["$nombre", " " , "$apellido" , " ". "Direccion: "," "."$Direccion.Ciudad","En la colonia", "$Direccion.Colonia"
+      
+      ]
+    }
+  
+    }
+  },
+
+  {$sort:{Informacion: 1}},
+  {$limit: 4},
+  {$skip: 2}
+)
+
+
+db.usuarios.aggregate(
+  {$project:{_id: 0,
+      Nombre_Usuario:{$concat:[
+        "$nombre", " ", "$apellido"
+      ]}, Ubicacion:{$concat:[
+        "$Direccion.Ciudad", " en la colonia ", "$Direccion.Colonia"
+      ]}
+  }},
+  {$sort:{Nombre_Usuario: 1}},
+  {$limit: 4},
+  {$skip: 2}
+).pretty()
+
+
+use BaseMulti
+
+db.createCollection("Empleados")
+
+
+ db.Empleados.insert(
+{
+"nombre": "Cesar",
+"apellido": "Flores",
+"telefono": "943634623", 
+"correo": "banegasc17@gmail.com",            
+"Dirrecion" : {
+"ciudad": "Tegucigalpa",               
+"colonia": "Las casitas",               //Juego de Arreglo
+"Numerodecasa": "341c"
+},
+"fechaingreso": new Date("15/05/2019"),
+"aficiones":["viajar","cine","leer"],      //Juego de arreglo
+"edad": 25
+
+} // para insertar 
+)
+
+
+//cesar que me salvo
+
+db.Videos.find().pretty() para ver las tablas
+
+Show dbs             // para ver las bases
+
+2.db.CreateUser({           // para crear un usuario         
+user: "bcesar",
+pwd: "1234",
+roles:["readWrite", "dbAdmin"]
+}
+
+db.Empleados.save // para guardar 
+
+
+3.use nombredelabase  //para usar la base y para crear la base
+
+4.db.dropDatabase()  // Para borrar la base 
+
+5.db  // para saber en que base de datos estoy
+
+6.db.createCollection("Empleado") // Con esto se crear colecciones - Crear tabla
+
+7.show collections  // para mostrar las colecciones que tenemos
+
+db.Empleados.insert(
+{
+"nombre": "Mario",
+"apellido": "Flores",
+"telefono": "9434545223", 
+"correo": "banegfereasc17@gmail.com",            
+"Dirrecion":{
+"ciudad": "Tegucigalpa",               
+"colonia": "Las casitas",               //Juego de Arreglo
+"Numerodecasa": "34132c"
+},
+"fechaingreso": new Date("15/05/2019"),
+"aficiones":["viajar","cine","leer"],      //Juego de arreglo
+"edad": 20
+
+} // para insertar 
+)
+
+
+9.db.empleado.save() // para insertar forma 2
+
+
+10. db.Empleados.find() // para mostrar el registro o archivo
+
+11. db.Empleados.find().count() // para contar
+
+12. db.Empleados.find().limit(3).ToArray() / para hacer un top
+
+13.new date() // para sacar la fecha
+
+14.new date().getFullYear() // para sacar el año
+
+15.db.Empleados.find().limit(2).skip(1).pretty()
+
+skip lo que hace es saltar y decir que agregue uno mas este es para mostrar mas de 1 top
+Skip Avanzo y digo si es el 3 o 4 top
+
+16.db.Empleados.find().pretty()
+
+17.db.Empleados.findOne() // Muestra el  primero que se ingreso a la coleccion 
+
+18.db.Empleados.find({}).sort({edad:-1}).pretty() se utiliza para ascendente y Descendente 
+
+//edad = es un campo  
+//Empleados= es la tabla 
+//-1 para que los muestre de modo descendente 
+//1 para que muestre de ascendente 
+
+19. db.Empleados.find({"aficiones":"correr"}).pretty() // para mostrar una aficion especifica
+
+20.db.Empleados.find({"aficiones":"correr"}).count() // aqui se muestra la cantidad de la aficion correr
+
+db.empleados.find().pretty() // para mostrar la tabla 
+
+db.Empleados.find({fechaingreso:{$exists:false}},{"nombre":true,"_id:false"}) false significa que no quiero que se muestre
+
+//mostrar los documentos que sean de la ciudad sanpredro y ceiba
+
+db.Empleados.find(
+{
+$or:[
+{"Direccion.ciudad":"San pedro sula"}, {"Direccion.ciudad":"La ceiba"}
+
+}
+)
+
+
+db.Empleados.find({edad:{$gte:30}}).pretty() // de la coleccion empelados encontrame los mayores a 30 o iguales
+
+db.Empleados.find({edad:{$gte:30}}),{nombre:1, apellido:1, id:0})
+
+db.Empleados.find({edad:{$gte:28, $lte:35}}),{nombre:1, apellido:1, id:0})// de la coleccion empelados encontrame 28 a 30 o iguales
+
+
+//Isis Zapata prueba
+use("Prueba")
+
+db.createCollection("Factura")
+
+db.Factura.find().count()
+
+db.Factura.insert
+(
+    {"CodigoFactura":"139",
+    "Nombre_Cliente":
+    {
+    "Nombre": "Sara",
+    "Apellido": "Zara",
+    "Sexo": "Femenino",
+    "Edad": 18
+    },
+    "Fecha": new Date("01/05/2020"),
+    "Producto":
+    {
+        "NombreP": ["Vestido", "Lapiz","Tacones"],
+        "PrecioP" : ["550.00","10.00","200.00"],
+        "CantidadP" : ["1","1","1"]
+    }
+
+    }
+   
+)
+
+//Mostrar los documentos que sean filtrados por 2 productos usando el operador or
+db.Factura.find
+(
+  {
+    
+    $or:[ 
+    {
+      "Producto.NombreP":"Miel"
+    },
+    {
+      "Producto.NombreP":"Agua"
+    }
+        ]
+  }
+)
+
+//2- Ordenar los documentos por nombre del cliente de la z-a
+db.Factura.find({}).sort({Nombre_Cliente:1})
+//3- Mostrar las facturas que se encuentran en un rango de fechas
+//en mi caso puse de 2018 a 2020
+db.Factura.find
+(
+{
+"Fecha":
+{
+$gte: ISODate("2018-01-01"),
+$lte: ISODate("2020-01-01")
+}
+}
+)
+//4- Mostrar cuantas facturas hay por fecha
+db.Factura.aggregate
+(
+    [
+        {
+            $group:
+            {
+                 _id: "$Fecha",
+                 count: {$sum:1}
+            }
+        }
+    ]
+)
+//5- Mostrar los clientes femeninos
+db.Factura.find({"Nombre_Cliente.Sexo": "Femenino"}).pretty()
