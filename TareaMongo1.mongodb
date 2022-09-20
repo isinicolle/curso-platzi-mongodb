@@ -1,0 +1,972 @@
+
+use('computertecnology');
+
+db.productos.find()
+db.ventas.find()
+
+
+db.productos.insertMany([
+     {
+         "codigoproducto": 1,
+         "nombreproducto": "cpu",
+         "precio":1500.00,
+         "tipoproducto": "p",
+         "cantidadexistencia":10,
+         "marca":"hp", 
+     },
+     {
+       "codigoproducto": 2,
+       "nombreproducto": "monitor",
+       "precio":1000.00,
+       "tipoproducto": "p",
+       "cantidadexistencia":15,
+       "marca":"hp",
+     }
+   ]
+ )
+
+
+db.productos.insertMany([
+    {
+        "codigoproducto": 3, 
+        "nombreproducto": "mouse", 
+        "precio": 400.00, 
+        "tipoproducto": "p", 
+        "cantidadexistencia": 5,
+        "marca": "logitech"
+    },
+    {
+        "codigoproducto": 4, 
+        "nombreproducto": "teclado", 
+        "precio": 550.00, 
+        "tipoproducto": "p", 
+        "cantidadexistencia": 9,
+         "marca": "genius"
+    }
+ ])
+ 
+ 
+db.productos.insertMany([
+    {
+        "codigoproducto": 5, 
+        "nombreproducto": "cables de red", 
+        "precio": 200.00, 
+        "tipoproducto": "p", 
+        "cantidadexistencia": 6, 
+        "marca": "apple"
+    },
+    {
+        "codigoproducto": 6, 
+        "nombreproducto": "cpu",
+         "precio": 420.00, 
+         "tipoproducto": "p", 
+         "cantidadexistencia": 20, 
+         "marca": "amd"
+    }
+])
+
+db.productos.insertMany([
+    {
+        "codigoproducto": 7, 
+        "nombreproducto": "cpu", 
+        "precio": 800.00, 
+        "tipoproducto": "p", 
+        "cantidadexistencia": 9, 
+        "marca": "dell"
+    },
+    {
+        "codigoproducto": 8, 
+        "nombreproducto": "monitor", 
+        "precio": 580.00, 
+        "tipoproducto": "p", 
+        "cantidadexistencia": 8, 
+        "marca": "dell"
+    }
+])
+
+db.productos.insertMany([
+    {
+        "codigoproducto": 9, 
+        "nombreproducto": "teclado", 
+        "precio": 600.00, 
+        "tipoproducto": "p", 
+        "cantidadexistencia": 7, 
+        "marca": "apple"
+    },
+    {
+        "codigoproducto": 10, 
+        "nombreproducto": "cable red", 
+        "precio": 320.00, 
+        "tipoproducto": "p", 
+        "cantidadexistencia": 12, 
+        "marca": "charofil"
+    }
+])
+
+db.productos.insertMany([
+    {
+        "codigoproducto": 11, 
+        "nombreproducto": "teclado", 
+        "precio": 600.00, 
+        "tipoproducto": "a", 
+        "cantidadexistencia": 7, 
+        "marca": "apple"
+    },
+    {
+        "codigoproducto": 12, 
+        "nombreproducto": "cable red", 
+        "precio": 320.00, 
+        "tipoproducto": "a", 
+        "cantidadexistencia": 12, 
+        "marca": "charofil"
+    }
+])
+
+
+db.productos.insertMany([
+    {
+        "codigoproducto": 13, 
+        "nombreproducto": "discos", 
+        "precio": 440.00, 
+        "tipoproducto" : "a", 
+        "cantidadexistencia": 10, 
+        "marca": "harman"
+    },
+    {
+        "codigoproducto": 14, 
+        "nombreproducto": "memoria ram", 
+        "precio": 850.00, 
+        "tipoproducto" : "a", 
+        "cantidadexistencia": 20, 
+        "marca": "anker"
+    }
+])
+
+db.productos.insertMany([
+    {
+     "codigoproducto": 15,
+     "nombreproducto": "tarjeta madre",
+     "precio": 1200.00,
+     "tipoproducto":"a", 
+     "cantidadexistencia": 10, 
+     "marca": "gygabyte"
+    },
+    {
+    "codigoproducto": 16, 
+    "nombreproducto": "tarjeta de red", 
+    "precio": 420.00, "tipoproducto":"a", 
+    "cantidadexistencia": 15, 
+    "marca": "asus"
+    } 
+])
+
+ 
+db.productos.insertMany([
+    {
+    "codigoproducto": 17, 
+    "nombreproducto": "discos", 
+    "precio": 500.00, 
+    "tipoproducto": "a", 
+    "cantidadexistencia": 10, 
+    "marca": "toshiba"
+    },
+    {
+    "codigoproducto": 18, 
+    "nombreproducto": "parlantes", 
+    "precio": 320.00, 
+    "tipoproducto": "a", 
+    "cantidadexistencia": 15, 
+    "marca": "sony"
+    }
+])
+
+
+db.productos.insertMany([
+    {
+        "codigoproducto":19, 
+        "nombreproducto": "micrifonos", 
+        "precio":199.00, 
+        "tipoproducto": "a", 
+        "cantidadexistencia":7, 
+        "marca": "Intensive"
+    },
+    {
+        "codigoproducto":20, 
+        "nombreproducto":"memoria ram", "precio": 1230.50, 
+        "tipoproducto": "a", 
+        "cantidadexistencia":12, 
+        "marca": "kingston"
+    }
+    
+])
+
+
+db.empleado.insertOne(
+    {
+        "codigoempleado": 1,
+        "nombreempleado": "luis",
+        "apellidoempleado": "meza",
+        "correo": "luizmeza@gmail.com",
+        "fechanacimiento": new Date("1995-07-07"),
+        "sexo": "masculino",
+        "salario": 20000.00,
+        "fechaingreso": new Date("2017-04-03"),
+        "puesto": "administrador",
+        "estado": "a"
+    }
+)
+
+db.empleado.insertOne({
+    
+    "codigoempleado":2,
+    "nombreempleado":"isis",
+    "apellidoempleado":"nicolle",
+    "correo": "isisnicolle@unicah.edu",
+    "fechanacimiento": new Date("2001-03-14"),
+    "sexo": "femenino",
+    "salario": 10000.00,
+    "fechaingreso": new Date("2018-07-30"),
+    "puesto":"vendedor",
+    "estado":"a"
+})
+
+
+
+db.empleado.insertMany([
+    {
+        "codigoempleado":3,
+        "nombreempleado":"walter",
+        "apellidoempleado":"amador",
+        "correo": "wi_amadorv@unicah.edu",
+        "fechanacimiento": new Date("2001-07-30"),
+        "sexo": "masculino",
+        "salario": 100000.00,
+        "fechaingreso": new Date("2018-07-30"),
+        "puesto":"vendedor",
+        "estado":"a"
+    },
+    {
+        "codigoempleado":4,
+        "nombreempleado":"andrea",
+        "apellidoempleado":"quinto",
+        "correo": "andreaquinto@unicah.edu",
+        "fechanacimiento": new Date("2000-06-20"),
+        "sexo": "femenino",
+        "salario": 50000.00,
+        "fechaingreso": new Date("2017-08-10"),
+        "puesto":"vendedor",
+        "estado":"i"
+    }
+])
+
+
+
+db.empleados.insertOne(
+    {
+        "codigoempleado": 5,
+        "nombreempleado": "jefferson",
+        "apellidoempleado": "sanchez",
+        "correo": "jetesanchez20@gmail.com",
+        "fechanacimiento": new Date("2000-10-10"),
+        "sexo": "masculino",
+        "salario": 25000.00,
+        "fechaingreso": new Date("2017-08-05"),
+        "puesto": "administrador",
+        "estado": "a"
+    }
+)
+
+db.empleados.insertOne(
+    {
+        "codigoempleado": 6, 
+        "nombreempleado": "luis",
+        "apellidoempleado": "martinez", 
+        "correo": "luis2021@gmail.com", 
+        "fechanacimiento": new Date("2001-02-14"), 
+        "sexo": "masculino", "salario": 10000,
+        "fechaingreso": new Date("2018-05-06"), 
+        "puesto": "jefedeplanta"
+    }
+)
+
+db.empleados.insertOne(
+    {
+        "codigoempleado": 7, 
+        "nombreempleado" : "eduardo",
+        "apellidoempleado" : "aguirre", 
+        "correo":"eduAguirre@hotmail.com", 
+        "fechanacimiento": new Date("2001-7-31"),
+        "sexo": "masculino",
+        "salario": 20000.00, 
+        "fechaingreso": new Date("2018-11-15"), 
+        "puesto": "jefedeplanta", 
+        "estado": "a"
+    }
+)
+
+db.clientes.insertMany([
+    {
+        "codigocliente": 1, 
+        "nombrecliente": "andrea", 
+        "fechanacimiento": new Date("2000-07-17"), 
+        "sexo": "femenino", 
+        "tipocliente": "normal",
+          "observacion": "cumple los requisitos para ser premium"
+    },
+    {
+        "codigocliente": 2, 
+        "nombrecliente": "luis", 
+        "fechanacimiento": new Date("2001-02-14"), 
+        "sexo": "masculino", 
+        "tipocliente": "normal",
+        "observacion": "cumple los requisitos para ser premium"
+    }
+])
+
+
+db.clientes.insert(
+    {
+        "codigocliente": 3, 
+        "nombrecliente": "harold",
+        "fechanacimiento": new Date("1995-03-01"),
+        "sexo":"masculino",
+        "tipocliente": "normal"
+    }
+) 
+
+db.clientes.insert(
+    {
+        "codigocliente":4, 
+        "nombrecliente":"waldina",
+        "fechanacimiento": new Date("1988-04-24"),
+        "sexo":"femenino",
+        "tipocliente": "normal"
+    }
+) 
+
+ db.clientes.insert(
+    {
+        "codigocliente": 5, 
+        "nombrecliente": "joaquin",
+        "fechanacimiento": new Date("2000-07-17"),
+        "sexo":"masculino",
+        "tipocliente": "normal"
+    }
+) 
+
+ db.clientes.insert(
+    {
+        "codigocliente": 6, 
+        "nombrecliente": "kevin",
+        "fechanacimiento": new Date("1999-09-25"),
+        "sexo":"masculino",
+        "tipocliente": "normal"
+    }
+) 
+
+db.clientes.insert(
+    {
+        "codigocliente": 7, 
+        "nombrecliente" : "ana", 
+        "fechanacimiento": new Date("1999-2-10"), 
+        "sexo": "femenino",
+        "tipocliente": "normal"
+    }
+)
+
+  db.ventas.insertOne(
+  {
+    "codigoventa": 1,
+    "fechaventa": new Date("2016-10-10"),
+    "codigocliente": "3",
+    "codigoempleado": "1",
+    "tipopago": "credito",
+    detalleventa: [{
+      "codigoproducto": 19,
+      "nombreproducto": "microfonos",
+      "precio": 300,
+      "cantidad": 3
+    },
+  {
+    "codigoproducto": 16,
+    "nombreproducto": "tarjeta de red",
+    "precio": 500,
+    "cantidad": 5
+  },
+  {
+    "codigoproducto": 15,
+    "nombreproducto": "tarjeta madre",
+    "precio": 1500,
+    "cantidad": 5
+  }
+]
+  }
+)
+
+db.ventas.insertOne(
+     {
+    "codigoventa": 2,
+    "fechaventa": new Date("2016-01-01"),
+    "codigocliente": "4",
+    "codigoempleado": "5",
+    "tipopago": "efectivo",
+    detalleventa: [{
+      "codigoproducto": "13",
+      "nombreproducto": "microfonos",
+      "precio": 600,
+      "cantidad": 2
+    },
+  {
+    "codigoproducto": 14,
+    "nombreproducto": "memoria ram",
+    "precio": 1100,
+    "cantidad": 6
+  },
+  {
+    "codigoproducto": 15,
+    "nombreproducto": "tarjeta madre",
+    "precio": 1500,
+    "cantidad": 3
+  }
+]
+  }
+)
+
+db.ventas.insert(
+    {
+        "codigoventa": 3,
+        "fechaventa":  new Date("2010-07-11"),
+        "codigocliente": 2,
+        "codigoempleado": 3,
+        "tipopago": "efectivo",
+        detalleventa:
+        [
+            {"codigoproducto": 3, "nombreproducto": "mouse",  "cantidad": 2, "precio": 800.00},
+            {"codigoproducto": 4, "nombreproducto": "teclado", "cantidad": 3, "precio": 1650.00},
+            {"codigoproducto": 1,  "nombreproducto": "cpu","cantidad":1,"precio": 300.00}
+
+        ]
+
+    }
+)
+
+db.ventas.insert(
+    {
+        "codigoventa": 4,
+        "fechaventa":  new Date("2011-08-12"),
+        "codigocliente": 3,
+        "codigoempleado": 4,
+        "tipopago": "efectivo",
+        detalleventa:
+        [
+            {"codigoproducto": 2, "nombreproducto": "monitor",  "cantidad": 2, "precio": 400.00},
+            {"codigoproducto": 1, "nombreproducto": "cpu", "cantidad": 2, "precio": 600.00},
+            {"codigoproducto": 3,  "nombreproducto": "mouse","cantidad": 1, "precio": 400.00}
+
+        ]
+
+    }
+)
+
+db.ventas.insert(
+    {
+        "codigoventa": 5, 
+        "fechaventa":  new Date("2010-08-12"), 
+        "codigocliente": 1, 
+        "codigoempleado": 3, 
+        "tipopago": "efectivo",
+        detalleventa:
+        [
+            {"codigoproducto": 15, "nombreproducto": "tarjeta madre",  "cantidad": 2, "precio": 1200.00},
+            {"codigoproducto": 16, "nombreproducto": "tarjeta de red", "cantidad": 4, "precio": 420.00},
+            {"codigoproducto": 7,  "nombreproducto": "cpu",            "cantidad": 1, "precio": 800.00}
+
+        ]
+        
+    }
+)
+
+db.ventas.insert(
+    {
+        "codigoventa": 6, 
+        "fechaventa":  new Date("2010-09-12"), 
+        "codigocliente": 2, 
+        "codigoempleado": 4, 
+        "tipopago": "credito",
+         detalleventa:
+        [
+            {"codigoproducto": 5,  "nombreproducto": "cables de red",  "cantidad": 3, "precio": 200.00},
+            {"codigoproducto": 6,  "nombreproducto": "cpu",            "cantidad": 2, "precio": 420.00},
+            {"codigoproducto": 18, "nombreproducto": "parlantes",      "cantidad": 5, "precio": 320.00}
+
+        ]
+       
+
+    }
+)
+
+db.ventas.insertMany([
+    
+    {
+        "codigoventa": 7, 
+        "fechaventa":  new Date("2012-09-15"), 
+        "codigocliente": 3, 
+        "codigoempleado": 3, 
+        "tipopago": "efectivo",
+        detalleventa:
+        [
+            {"codigoproducto":18 ,"nombreproducto":"parlante","cantidad": 3, "precio":320.00 },
+            {"codigoproducto":19 ,"nombreproducto":"microfonos","cantidad": 2, "precio":850.00},
+            {"codigoproducto":17 ,"nombreproducto":"discos","cantidad":3, "precio":500.00}
+
+        ]
+    },
+
+    {
+        "codigoventa": 8, 
+        "fechaventa":  new Date("2012-06-12"), 
+        "codigocliente": 5, 
+        "codigoempleado": 1, 
+        "tipopago": "efectivo",
+        detalleventa:
+        [
+            {"codigoproducto": 5,"nombreproducto":"cables de red","cantidad": 4, "precio":200.00 },
+            {"codigoproducto":16 ,"nombreproducto":"tarjetas de red","cantidad": 1, "precio":420.00},
+            {"codigoproducto":14 ,"nombreproducto":"memoria ram","cantidad":2, "precio":1000.00}
+
+        ]
+    }
+    
+    
+])
+
+db.ventas.insert(
+    {
+        "codigoventa": 9, 
+        "fechaventa":  new Date("2015-06-19"), 
+        "codigocliente": 1, 
+        "codigoempleado": 5, 
+        "tipopago": "efectivo",
+        detalleventa:
+        [
+            {"codigoproducto": 5, "nombreproducto": "tarjeta madre",  "cantidad": 12, "precio": 1000.00},
+            {"codigoproducto": 6, "nombreproducto": "tarjeta de red", "cantidad": 9, "precio": 220.00},
+            {"codigoproducto": 7,  "nombreproducto": "cpu",            "cantidad": 3, "precio": 900.00}
+
+        ]
+        
+    }
+)
+
+db.ventas.insert(
+    {
+        "codigoventa": 10, 
+        "fechaventa":  new Date("2020-10-14"), 
+        "codigocliente": 2, 
+        "codigoempleado": 4, 
+        "tipopago": "efectivo",
+         detalleventa:
+        [
+            {"codigoproducto": 13,  "nombreproducto": "teclado",  "cantidad": 14, "precio": 120.00},
+            {"codigoproducto": 14,  "nombreproducto": "tarjeta de red",            "cantidad": 12, "precio": 180.00},
+            {"codigoproducto": 8, "nombreproducto": "teclado",      "cantidad": 8, "precio": 300.00}
+
+        ]
+       
+
+    }
+)
+
+db.ventas.insert(
+    {
+        "codigoventa": 11, 
+        "fechaventa":  new Date("2020-11-19"), 
+        "codigocliente": 1, 
+        "codigoempleado": 3, 
+        "tipopago": "tarjeta",
+        detalleventa:
+        [
+            {"codigoproducto": 19, "nombreproducto": "tarjeta madre",  "cantidad": 10, "precio": 100.00},
+            {"codigoproducto": 14, "nombreproducto": "teclado", "cantidad": 6, "precio": 200.00},
+            {"codigoproducto": 12,  "nombreproducto": "cpu",            "cantidad": 12, "precio": 600.00}
+        ]
+        
+    }
+)
+
+db.ventas.insert(
+    {
+        "codigoventa": 12, 
+        "fechaventa":  new Date("2020-08-12"), 
+        "codigocliente": 1, 
+        "codigoempleado": 3, 
+        "tipopago": "efectivo",
+        detalleventa:
+        [
+            {"codigoproducto": 17, "nombreproducto": "discos",  "cantidad": 2, "precio": 550.00},
+            {"codigoproducto":20, "nombreproducto":"memoria ram", "cantidad": 1, "precio": 1300.00},
+            {"codigoproducto": 10,  "nombreproducto": "cpu",            "cantidad": 1, "precio": 800.00}
+
+        ]
+        
+    }
+)
+
+
+
+db.ventas.insert(
+    {
+        "codigoventa": 13, 
+        "fechaventa":  new Date("2010-08-12"), 
+        "codigocliente": 1, 
+        "codigoempleado": 4, 
+        "tipopago": "credito",
+        detalleventa:
+        [
+            {"codigoproducto": 1, "nombreproducto": "cpu",  "cantidad": 2, "precio": 1500.00},
+            {"codigoproducto": 2, "nombreproducto": "monitor", "cantidad": 2, "precio": 1000.00},
+            {"codigoproducto": 15,  "nombreproducto": "tarjeta madre", "cantidad": 2, "precio": 1200.00}
+
+        ]
+        
+    }
+)
+
+
+db.ventas.insert(
+    {
+        "codigoventa": 14, 
+        "fechaventa":  new Date("2015-11-20"), 
+        "codigocliente": 3, 
+        "codigoempleado": 4, 
+        "tipopago": "credito",
+        detalleventa:
+        [
+            {"codigoproducto": 14, "nombreproducto": "memoria ram",  "cantidad": 4, "precio": 1420.00},
+            {"codigoproducto": 8, "nombreproducto": "monitor", "cantidad": 1, "precio": 570.00},
+            {"codigoproducto": 7,  "nombreproducto": "cpu", "cantidad": 1, "precio": 800.00}
+
+        ]
+        
+    }
+)
+
+db.ventas.insert(
+    {
+        "codigoventa": 15, 
+        "fechaventa":  new Date("2016-11-20"), 
+        "codigocliente": 6, 
+        "codigoempleado": 3, 
+        "tipopago": "efectivo",
+        detalleventa:
+        [
+            {"codigoproducto": 14, "nombreproducto": "memoria ram",  "cantidad": 4, "precio": 1420.00},
+            {"codigoproducto": 19, "nombreproducto": "microfono", "cantidad": 1, "precio": 650.00},
+            {"codigoproducto": 7,  "nombreproducto": "cpu", "cantidad": 6, "precio": 4200.00}
+
+        ]
+        
+    }
+)
+
+
+db.productos.find().count()
+db.clientes.find().count()
+
+
+
+
+db.createCollection("clientes")
+
+db.createCollection("empleados")
+
+db.createCollection("productos")
+
+
+//Consultas
+
+//Cuantos empleados hay por puesto
+
+db.empleados.find()
+
+db.empleados.aggregate([
+{
+$group:
+{ _id:"$puesto", count:{$sum:1}
+}
+}
+])
+
+
+//Mostrar las edades actuales de los empleados, que se concatene el nombre, apellido y
+//el puesto y como otro campo la edad actual del empleado
+
+db.empleados.find()
+
+db.empleados.aggregate(
+[
+{
+$project:
+{ _id:
+{
+empleado:{
+$concat:["$nombreempleado"," ","$apellidoempleado"," ","$puesto"]
+}
+},anio1: {$year:"$fechanacimiento"}, anio2:{$year:new Date()}
+}
+},{
+$project:
+{
+edaddelempleado:
+{
+$subtract:
+["$anio2","$anio1"]
+}
+}
+}
+]
+)
+
+//La empresa desea dar un aumento a los empleados según los años laborados, por lo
+//que se debe mostrar el nombre del empleado, los años laborados actualmente y el
+//porcentaje de aumento que se muestran según rangos:
+//Si tiene de 2 años a 5 es un 5%
+//Si tiene de 6 años a 12 es un 10%
+//Si tiene de 13 en adelante es un 15%, (este ejercicio debe hacerse con un switch)
+
+db.empleados.find()
+
+db.empleados.aggregate(
+[
+{
+$project:
+{ _id:
+{
+nombre:"$nombreempleado", apellido: "$apellidoempleado"
+},anio1: {$year:"$fechaingreso"}, anio2:{$year:new Date()}
+}
+},{
+$project:
+{
+anioslaborados:
+{
+$subtract:
+["$anio2","$anio1"]
+}
+}
+}])
+,{$project:{aumento:{
+  $switch:{branches:[
+    {case:  {$and:[{$gte:["$anioslaborados",2]},{$lte:["$anioslaborados",5]}]},
+  then:"5%"},
+    {case:{$and:[{$gte:["$anioslaborados",6]},{$lte:["$anioslaborados",12]}]},
+  then:"10%"},
+    {case:{$gte:["$anioslaborados",13]},
+  then:"15%"}],
+  default:"sin aumento"
+    
+}}}}]
+)
+
+
+
+/*{
+    $project:
+      {
+        
+        "$anioslaborados" :
+        {
+          $switch:
+            {
+              branches: [
+                {
+                  case: { $gte : [ 2, 5 ] },
+                  then: "Doing great!"
+                },
+                {
+                  case: { $gte : [ 6,12 ]  },
+                  then: "Doing pretty well."
+                },
+                {
+                  case: { $gte : [ 13, 100 ] },
+                  then: "Needs improvement."
+                }
+              ],
+              default: "No scores found."
+            }
+         }
+      }
+   }
+
+
+]
+)*/
+
+
+
+//- filtrar 3 productos diferentes y que muestre los registros de detalle de factura en que
+//se encuentran.
+
+
+db.ventas.find()
+
+db.ventas.find(
+{ "detalleventa.codigoproducto":
+{$in:[3,2,1]}
+},{_id:false, "detalleventa.$":true})
+
+
+
+db.ventas.find(
+{ "detallefactura.nombreproducto":
+{$in:["cpu","memoria ram"]}
+},{_id:false, "detallefactura.$":true}
+)
+
+
+//La empresa pide actualizar a 3 clientes que cumple los requisitos para ser tipo
+//Premium (debe de ser en una sola consulta)
+
+db.clientes.find()
+
+db.clientes.update(
+{
+$or:[{"_id":ObjectId("6032d7242913fd352c2ec566")}, {"_id":ObjectId("6032d7242913fd352c2ec565")},
+{"_id":ObjectId("6032d7242913fd352c2ec564")}]
+},{$set:{"tipocliente":"premium"}},{multi:true}
+)
+
+db.clientes.update(
+{"observacion": "cumple los requisitos para ser premium"}, {$set:{"tipocliente":"premium"}},{multi:true}
+)
+
+//La factura 3 se debe hacer una corrección ya que falto el cobro de un producto, por lo
+//que se pide actualizar esa factura agregando ese producto.
+
+
+
+db.ventas.update(
+{ "codigoventa":3},
+{
+$push:
+{
+detalleventa:
+{codigoproducto: 16,
+        nombreproducto: "tarjeta de red",
+        cantidad: 4,
+        precio: 420}
+}
+}
+)
+
+db.factura.update(
+{ "codigo":"003"
+},{
+$push:
+{
+detallefactura:
+{codigoproducto:5,nombreproducto:"melocoton",precio:35.00,cantidad:3}
+}
+}
+)
+
+
+
+//penultimo 
+db.clientes.aggregate(
+{
+$project:
+{ _id:
+{
+clientes:{$concat:["$nombre"," ","$apellido"]}
+},descuento:
+{
+$cond:[{$eq:["$tipo","premium"]}, "15%","5%"]
+}
+}
+}
+)
+
+
+/* 6. Mostrar cuanto es el total de las facturas según la fecha.*/
+
+db.ventas.aggregate(
+  [
+    {
+      $group:{
+        _id:"$fechaventa",
+        Total:{$sum:{$sum:{$map:{"input":"$detalleventa",
+        "in":{$multiply:["$$this.precio","$$this.cantidad"]}}}}}
+      }
+    }
+  ]
+)
+
+
+db.ventas.aggregate([
+  
+  {$unwind: "$detalleventa"},
+  {$group:{
+    _id: "$codigoventa",
+    totalcondescuento: {$sum: {$subtract: [
+      {$multiply: ["$detalleventa.precio", "$detalleventa.cantidad"]},
+      {$multiply: ["$detalleventa.precio", "$detalleventa.cantidad", 0.10]}
+    ]}}
+  }},
+  {$project:{totalcondescuento:1, mensaje:{
+    $cond: {if: {$gte: ["$totalcondescuento", 2501]},
+    then: 'ingreso alto', else:{
+      $cond: {if: {$gte: ["$totalcondescuento", 800]},
+      then: 'ingreso regular', else: 'ingreso bajo'}
+    }}
+  }}}
+]);
+
+
+db.empleados.aggregate(
+    {
+        $project:{
+            _id: "$nombreempleado",
+            anio1:{$year: new Date()},
+            anio2:{$year: "$fechaingreso"}
+        }
+    },
+    {
+        $project: {
+          anioslaborados: {$subtract:["$anio1", "$anio2"]}
+        }
+    },
+    {
+        $project: {
+            aumento: {
+                $switch:
+                {
+                    branches:
+                    [
+                        {
+                            case:{$and: 
+                                [ {$gte:[ "$anioslaborados", 2]},
+                                 {$lte: ["$anioslaborados", 5]}
+                                ]},
+                            then: "5%"
+                        },
+                        {
+                            case:{$and: 
+                                [ {$gte:[ "$anioslaborados", 6]},
+                                 {$lte: ["$anioslaborados", 12]}
+                                ]},
+                            then: "10%"
+                        },
+                        {
+                            case:{$and: 
+                                [ {$gte:[ "$anioslaborados", 13]},
+                                ]},
+                            then: "15%"
+                        }
+                    ],
+                    default: "No tiene aumento"
+                }
+            }
+        }
+    }
+)

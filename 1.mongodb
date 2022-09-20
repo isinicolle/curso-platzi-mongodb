@@ -1,0 +1,322 @@
+//Consultas con la base prueba Insertar
+db.Usuarios.insert()
+
+db.Usuarios.save()
+
+
+
+//select = from
+
+db.Usuarios.find()
+db.Videos.find()
+
+db.Factura.find()
+
+//Mostrar los primeros 2
+
+db.Usuarios.find().limit(2).pretty()
+
+//mostrar los primeros 3
+db.Factura.find().limit(3).pretty()
+
+//mostrar el 3 y 4
+db.Usuarios.find().limit(2).skip(2).pretty()
+
+
+//mostrar el cliente 5 y 6
+db.Factura.find().limit(2).skip(4).pretty()
+
+//todos
+db.Usuarios.find().pretty()
+
+
+//el primero que se creo
+db.Usuarios.findOne()
+
+db.Videos.findOne()
+
+
+//mostrar la compra que se hizo de primero
+db.Factura.findOne()
+
+//las lalves para poderlos ordenar por edad
+
+//ordenar por nombre la factura
+db.Factura.find({}).sort({"Nombre_Cliente.Nombre" :1})
+
+
+db.Usuarios.find({}).sort({Edad:1})
+
+//Ordenar de forma ascendente por edad el de arribba
+
+//Ordenar de forma descendente por apellido
+db.Usuarios.find({}).sort({Apellido:-1})
+
+db.Factura.find({}).sort({"Nombre_Cliente.Apellido" :-1})
+
+//buscar por palabras especificas
+
+
+//donde los videos sean de risa
+db.Videos.find({"Etiquetas": "Risa"}).pretty() 
+
+//donbde los productos que ocmpro sean miel
+
+db.Factura.find({"Producto.NombreP": "Miel"})
+
+//cuantos son de risa
+
+db.Videos.find({"Etiquetas": "Risa"}).count()
+
+
+db.Factura.find({"Producto.NombreP": "Miel"}).count()
+
+
+//*mostrar el titulod el video donde no exista fecha de ingreso
+db.Videos.find({Fecha_ingreso:{$exists:false}},{"Titulo_del_video":true,"_id":false})
+
+db.Factura.find({Fecha:{$exists:true}},{"Nombre_Cliente":true,"_id":false})
+
+
+//*mostrar el titulod el video donde SI exista fecha de ingreso
+db.Videos.find({Fecha_ingreso:{$exists:true}},{"Titulo_del_video":true,"_id":false})
+
+//mostrar los usuarios de choluteca y tegus
+db.Usuarios.find
+(
+  {
+    
+    $or:[ 
+    {
+      "Direccion.Ciudad":"Tegucigalpa"
+    },
+    {
+      "Direccion.Ciudad":"Choluteca"
+    }
+        ]
+  }
+)
+
+
+//mostrar los que ocnsumieron agua
+
+db.Factura.find
+(
+  {
+    $or:
+    [
+      {
+        "Producto.NombreP" : "Agua"
+      },
+      {
+        "Producto.NombreP": "Miel"      }
+    ]
+  }
+)
+
+//cuantos son de tegucifalpa y choluteca
+
+db.Usuarios.find
+(
+  {
+    
+    $or:[ 
+    {
+      "Direccion.Ciudad":"Tegucigalpa"
+    },
+    {
+      "Direccion.Ciudad":"Choluteca"
+    }
+        ]
+  }
+).count()
+
+
+db.Factura.find
+(
+  {
+    $or:
+    [
+      {
+        "Producto.NombreP" : "Agua"
+      },
+      {
+        "Producto.NombreP": "Miel"      }
+    ]
+  }
+)
+.count()
+
+//del anterior solo mostrar los 3 primeros
+db.Usuarios.find
+(
+  {
+    
+    $or:[ 
+    {
+      "Direccion.Ciudad":"Tegucigalpa"
+    },
+    {
+      "Direccion.Ciudad":"Choluteca"
+    }
+        ]
+  }
+).limit(3)
+
+
+db.Factura.find
+(
+  {
+    $or:
+    [
+      {
+        "Producto.NombreP" : "Agua"
+      },
+      {
+        "Producto.NombreP": "Miel"      }
+    ]
+  }
+)
+.limit(3)
+
+//mostrar los usuarios mayores de edad
+
+db.Usuarios.find({Edad:{$gte:18}}).pretty()
+
+db.Prueba.find({"Nombre_Cliente.Edad":{$gte:18}}).pretty()
+
+//mostrar cuantos usuarios son mayores de edad
+
+db.Usuarios.find({Edad:{$gte:18}}).pretty().count()
+
+//mostrar los usuarios mayores de edad solo el nombre y apellido
+
+db.Usuarios.find({Edad:{$gte:18}},{nombre:1, apellido:1 , _id:0})
+
+
+//mostrar los usuarios menores de edad
+
+db.Usuarios.find({Edad:{$lte:18}}).pretty()
+
+//mostrar cuantos usuarios son menores de edad
+
+db.Usuarios.find({Edad:{$lte:18}}).pretty().count()
+
+//mostrar los usuarios menores de edad solo el nombre y apellido
+
+db.Usuarios.find({Edad:{$lte:18}},{nombre:1, apellido:1 , _id:0})
+
+
+//Mostrar losque estan entre 18 y 25 anios su apellido y su nombre
+db.Usuarios.find({Edad:{$gte:18,$lte:25}},{nombre:1, apellido:1 , _id:0})
+
+//la cantiddad de personas segun el enunciado anterior
+
+db.Usuarios.find({Edad:{$gte:18,$lte:25}},{nombre:1, apellido:1 , _id:0}).count()
+
+
+//mostrar los videos que se subieron a partir del 2012 hasta la actualidad
+
+db.Videos.find()
+
+db.Videos.find
+(
+  {
+    "Fecha_ingreso": {$gte: ISODate("2012-01-01")}
+  }
+).pretty()
+
+
+//mostrar los videos que se subieron a antes del 2012 hasta la actualidad
+
+
+db.Videos.find
+(
+  {
+    "Fecha_ingreso": {$lte: ISODate("2012-01-01")}
+  }
+).pretty()
+
+
+//mostrar los videos que estan entre 2001 y 2021
+
+db.Videos.find
+(
+  {
+    "Fecha_ingreso":
+    {
+      $gte: ISODate("2001-01-01"),
+      $lte:  ISODate("2021-01-01")
+    }
+  }
+)
+
+//mostrar un histograma con todas las edades basicamente XD
+db.Usuarios.aggregate
+(
+  [
+    {
+      $group:
+      {
+        _id: "$Edad",
+        count: {$sum:1}
+      }
+    }
+  ]
+)
+
+
+//actualizar un registor por el id
+
+db.Usuarios.find()
+
+db.Usuarios.update
+(
+  {
+      "_id": ObjectId("602079f7d2570724f81f821c")
+  }, {$set: { "nombre": "Liwian"}}
+)
+
+//MOSTRAR LA MUJER Y hombre mayores
+
+db.Usuarios.aggregate
+(
+  [
+    {
+      $group:
+      {
+        "_id":"$Sexo",
+        Edad_Maxima: {$max:"$Edad"}
+      }
+    }
+  ]
+)
+
+//Concatenar  los nombres de los primeros 3 empleados
+
+db.Usuarios.aggregate
+(
+  {
+    $project: {"_id":0,
+    Nombre_Empleado:
+    {
+      $concat:
+      [
+        "$nombre", " " , "$apellido"
+      
+      ]
+    }
+  
+    }
+  },
+  {
+    $sort: 
+    {
+      Nombre_Empleado:1
+    }
+  },
+  {
+    $limit : 3
+  }
+)
+

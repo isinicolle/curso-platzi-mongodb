@@ -1,0 +1,249 @@
+//Orale 11 feb 
+
+//aca creas tu base vaa
+use('test');
+
+//aca insertas asi en VS Code, con insertMany para varios registros, si es para uno solo es insertOne
+db.Clientes.insertMany([
+
+  {"nombre": "Karla Yadira", "apellido": "Sanchez Ledesma", "fechanacimiento": new Date("2021/01/20"),
+  "direccion": {"ciudad": "tegucigalpa", "colonia": "El reparto"}},
+
+  {"nombre": "Beverly ", "apellido": "Guillen", "fechanacimiento": new Date("2021/01/25"),
+  "direccion": {"ciudad": "choluteca", "colonia": "San marcos"}},
+
+  {"nombre": "Luis Armando", "apellido": "Martinez", "fechanacimiento": new Date("2021/02/11"),
+  "direccion": {"ciudad": "tegucigalpa", "colonia": "San jorge"}}
+]);
+
+//porque asi si funciona este codigo, para mostrar los datos
+db.Clientes.find().pretty();
+db.Clientes.find({}, {"_id": 1, "nombre": 1});
+
+//Lo mismo para actualizar, si queres varios es updateMany (ahora la sintaxis de eso no me lo se JAJA)
+db.Clientes.updateOne({
+
+  "_id": ObjectId("6025c754101efd2c9042d7a7")
+}, {$set: {"correo": "luigi1234@gmail.com"}});
+
+
+db.Facturas.insertOne({
+
+  "codigo": "001",
+  "cliente": "6025c754101efd2c9042d7a5",
+  "fecha": new Date(),
+
+  detalleFactura:[
+
+    {codigoProducto: 1, nombreProducto: "manzana", precio: 12.00, cantidad: 5},
+    {codigoProducto: 2, nombreProducto: "zanahoria", precio: 15.00, cantidad: 3},
+    {codigoProducto: 3, nombreProducto: "mortadela", precio: 18.00, cantidad: 6},
+    {codigoProducto: 4, nombreProducto: "cervezas", precio: 40.00, cantidad: 6}
+  ]
+});
+
+
+db.Clientes.insert(
+{
+    "nombre": "Ana",
+    "apellidocliente": "Fu",
+    "fechanacimiento": new Date("10/07/2003"),
+    "correo": "afu@hotmail.com",
+    "direccion":{
+      "ciudad": "tegucigalpa",
+      "coloni": "los robles",
+    }
+}
+)
+
+
+db.Clientes.update({
+  "_id": ObjectId("6025c76556363c933a5707ec")
+}, {$set: {"tipo": "premium"} }
+)
+
+//COCATENACION nombre FORMA 2
+db.Clientes.find().limit(2).forEach(function(nombres)
+{
+  print("Los_Clientes:"+nombres.nombre," " +nombres.apellidocliente)
+}
+);
+
+
+
+
+db.factura.insert(
+{
+  "codigo": "003",
+  "cliente": "6025c76556363c933a5707ec",
+  "fecha": new Date(),
+
+  detallefactura:
+  [
+    {codigoproducto : 11, nombreproducto: "limon", precio: 5.00, cantidad: 12},
+    {codigoproducto : 12, nombreproducto: "cafe", precio: 55.00, cantidad: 3},
+    {codigoproducto : 13, nombreproducto: "leche", precio: 13.00, cantidad: 2}
+  ]
+}
+)
+
+
+//CALCULAR TODA DE UNA Facturas
+db.factura.aggregate(
+  [
+    {
+      $group:{
+          _id : "codigo",
+          total: {$sum: {$sum: ["$detallefactura.precio"]}}
+       }
+    }
+  ]
+)
+
+
+use facturacion
+
+db.createCollection("Cliente")
+
+db.Cliente.insert(
+
+  {
+    "nombre":"Karla Yadira",
+    "apellido":"Sanchez Ledesma",
+    "fechanacimiento":new Date("11/11/2005"),
+    "correo":"ksanchez2005@gmail.com",
+    "direccion":
+    {
+      "ciudad":"tegucigalpa",
+      "colonia":"El Reparto"
+    }
+  }
+)
+
+db.Cliente.insert(
+
+  {
+    "nombre":"Karla Patricia",
+    "apellido":"Martinez Ledesma",
+    "fechanacimiento":new Date("06/15/2001"),
+    "correo":"kpmartinez2001@gmail.com",
+    "direccion":
+    {
+      "ciudad":"tegucigalpa",
+      "colonia":"El Trapiche"
+    }
+  }
+)
+
+db.Cliente.insert(
+
+  {
+    "nombre":"Pablo David",
+    "apellido":"Martinez Calix",
+    "fechanacimiento":new Date("08/15/2004"),
+    "correo":"PdMartinez@gmail.com",
+    "direccion":
+    {
+      "ciudad":"tegucigalpa",
+      "colonia":"El Trapiche"
+    }
+  }
+)
+
+db.factura.insert(
+
+  {
+    "codigo":"001",
+    "cliente":"6025c7786be07655f1900b2b",
+    "fecha": new Date("18/11/2015"),
+
+    detallefactura:
+    [
+      {codigoproducto: 1, nombreproducto:"manzana",precio:12.00,cantidad:5},
+      {codigoproducto: 2, nombreproducto:"zanahoria",precio:15.00,cantidad:3},
+      {codigoproducto: 3, nombreproducto:"mortadela",precio:18.00,cantidad:6},
+      {codigoproducto: 4, nombreproducto:"salsa de tomate",precio:16.00,cantidad:7},
+      {codigoproducto: 13, nombreproducto:"cerveza",precio:40.00,cantidad:6}
+    ]
+  }
+)
+
+db.factura.insert(
+
+  {
+    "codigo":"001",
+    "cliente":"6025c7ad6be07655f1900b2c",
+    "fecha": new Date("18/02/2018"),
+
+    detallefactura:
+    [
+      {codigoproducto: 1, nombreproducto:"manzana",precio:12.00,cantidad:5},
+      {codigoproducto: 2, nombreproducto:"zanahoria",precio:15.00,cantidad:3},
+      {codigoproducto: 31, nombreproducto:"lechuga",precio:11.00,cantidad:3},
+      {codigoproducto: 9, nombreproducto:"salsa tartara",precio:36.00,cantidad:7},
+      {codigoproducto: 61, nombreproducto:"jugo",precio:40.00,cantidad:25}
+    ]
+  }
+)
+
+
+db.factura.insert(
+
+  {
+    "codigo":"003",
+    "cliente":"6025c7786be07655f1900b2b",
+    "fecha": new Date("03/11/2016"),
+
+    detallefactura:
+    [
+      {codigoproducto: 1, nombreproducto:"manzana",precio:12.00,cantidad:5},
+      {codigoproducto: 21, nombreproducto:"carne de res",precio:56.00,cantidad:8},
+      {codigoproducto: 13, nombreproducto:"Queso",precio:20.00,cantidad:5},
+      {codigoproducto: 41, nombreproducto:"salsa barbacoa",precio:40.00,cantidad:2},
+      {codigoproducto: 13, nombreproducto:"cerveza",precio:40.00,cantidad:6}
+    ]
+  }
+)
+
+db.Cliente.update({
+  "_id":ObjectId("6025c7786be07655f1900b2b")
+},{$set:{"tipo":"premium"}})
+
+db.Cliente.update({
+  "_id":ObjectId("6025c7ad6be07655f1900b2c")
+},{$set:{"tipo":"premium"}})
+
+db.Cliente.update({
+  "_id":ObjectId("6025c7e86be07655f1900b2d")
+},{$set:{"tipo":"normal"}})
+
+db.factura.update({
+  "_id":ObjectId("6025cb986be07655f1900b30")
+},{$set:{"codigo":"003"}})
+
+db.factura.update({
+  "_id":ObjectId("6025cb356be07655f1900b2f")
+},{$set:{"codigo":"002"}})
+
+db.Cliente.find().forEach(function(nombre)
+{print("losclientes: "+nombre.nombre);})
+
+db.Cliente.find().forEach(function(nombre)
+{print("losclientes: "+nombre.nombre+" "+nombre.apellido);})
+
+db.Cliente.find().limit(2).forEach(function(nombre)
+{print("losclientes: "+nombre.nombre+" "+nombre.apellido);})
+
+//suma todos
+
+
+db.Facturas.aggregate([
+
+  {$group:{
+    _id: "$codigo",
+    Precio: {$sum:{$sum:["$detalleFactura.precio"]}}    
+  }}
+]);
+
+
+db.Facturas.find()

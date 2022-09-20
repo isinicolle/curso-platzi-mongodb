@@ -1,0 +1,227 @@
+//aca creas tu base vaa
+use('test');
+
+//aca insertas asi en VS Code, con insertMany para varios registros, si es para uno solo es insertOne
+db.Clientes.insertMany([
+
+  {"nombre": "Karla Yadira", "apellido": "Sanchez Ledesma", "fechanacimiento": new Date("2021/01/20"),
+  "direccion": {"ciudad": "tegucigalpa", "colonia": "El reparto"}},
+
+  {"nombre": "Beverly ", "apellido": "Guillen", "fechanacimiento": new Date("2021/01/25"),
+  "direccion": {"ciudad": "choluteca", "colonia": "San marcos"}},
+
+  {"nombre": "Luis Armando", "apellido": "Martinez", "fechanacimiento": new Date("2021/02/11"),
+  "direccion": {"ciudad": "tegucigalpa", "colonia": "San jorge"}}
+]);
+
+//porque asi si funciona este codigo, para mostrar los datos
+db.Clientes.find().pretty();
+db.Clientes.find({}, {"_id": 1, "nombre": 1});
+
+//Lo mismo para actualizar, si queres varios es updateMany (ahora la sintaxis de eso no me lo se JAJA)
+db.Clientes.updateOne({
+
+  "_id": ObjectId("6025c754101efd2c9042d7a7")
+}, {$set: {"correo": "luigi1234@gmail.com"}});
+
+
+db.factura.insertOne({
+
+  "codigo": "004",
+  "cliente": "6025c754101efd2c9042d7a5",
+  "fecha": new Date(),
+
+  detalleFactura:[
+
+    {codigoProducto: 1, nombreProducto: "manzana", precio: 10.00, cantidad: 1},
+    {codigoProducto: 2, nombreProducto: "zanahoria", precio: 10.00, cantidad: 1},
+    {codigoProducto: 3, nombreProducto: "mortadela", precio: 10.00, cantidad: 2},
+    {codigoProducto: 4, nombreProducto: "cervezas", precio: 40.00, cantidad: 1}
+  ]
+});
+
+
+db.Clientes.updateOne({
+
+  "_id": ObjectId("6025c754101efd2c9042d7a7")
+}, {$set: {"tipo": "premium"}});
+
+db.Clientes.find().pretty();
+
+db.Clientes.find().limit(2).forEach(function(nombres)
+{print("Clientes: " + nombres.nombre + " " + nombres.apellido);})
+
+db.Facturas.aggregate([
+
+  {$group:{
+    _id: "$codigo",
+    Precio: {$sum:{["$detalleFactura.precio"]}}    
+  }}
+]);
+
+
+db.Facturas.aggregate([
+
+  {$group:{
+    _id: "$codigo",
+    Precio: {$sum: { $multiply: [ "$detalleFactura.precio", "$detalleFactura.cantidad" ] }}    
+  }}
+]);
+
+
+ $group: { _id: '$item', totalSaleAmount: { $sum: { $multiply: [ '$price', '$quantity' ] } } } }
+
+////////////////////////
+
+db.Clientes.updateOne({
+
+  "_id": ObjectId("6025c754101efd2c9042d7a7")
+}, {$set: {"tipo": "premium"}});
+
+db.Clientes.find().pretty();
+
+db.Clientes.find().limit(2).forEach(function(nombres)
+{print("Clientes: " + nombres.nombre + " " + nombres.apellido);});
+
+//Esto fue lo unico nuevo que vimos
+////////
+
+
+
+
+db.Clientes.find()
+
+db.Facturas.find()
+
+//1
+db.Facturas.find({codigo:{$exists:true}},{ "codigo":true,"detalleFactura":true ,"_id":false})
+
+//2
+var map = function() {
+var key = {codigo: this.codigo, "detalleFactura.cantidad": this."detalleFactura.cantidad", "detalleFactura.precio": this."detalleFactura.precio"};
+emit(key, {count: 1});
+};
+var reduce = function(key, values) {
+var sum = 0;
+values.forEach(function(value) {
+sum += value['count'];});
+return {count: sum};
+};
+db.hits.mapReduce(map, reduce, {out: {inline:1}});
+
+
+db.Clientes.find().forEach(function(nombres)
+{print("Numero de Factura: " + nombre.codigo + " " + nombre.detalleFactura);});
+
+/////////
+db.Factura.find()
+const aggregation = [
+  { $group: { _id: "$codigo", totalSaleAmount: { $sum: { $multiply: [ '$price', '$quantity' ] } } } }
+];
+
+//db.nombreColección.mapReduce(mapFunction,reduceFunction, options);
+
+$group: { _id: '$item', Precio: { $sum: { $multiply: [ '$price', '$quantity' ] }
+
+{$group:{
+    _id: "$codigo",
+    Precio: {$sum:{["$detalleFactura.precio"]}}    
+  }}
+]);
+
+
+db.Facturas.aggregate([
+
+  {$group:{
+    _id: "$codigo",
+    Precio: {$sum:{$multiply:["$detalleFactura.precio","$detalleFactura.cantidad"]}}    
+  }}
+]);
+
+
+db.factura.aggregate(
+
+  [
+    {
+      $group:{
+        _id:"$codigo",
+         total:{$sum:{$map:{"input":"$detallefactura", "in":{$multiply:["$$this.precio","$$this.cantidad"]}}}}
+      }
+    }
+  ],
+  {$sort:{:1}},
+)
+
+
+db.factura.aggregate([
+  { "$project": {
+    "count": {
+      "$sum": {
+        "$map": {
+          "input": {$range: [0,{"$size": "$detalleFactura"}]},
+          "in": { "$multiply": ["$$this.precio", "$$this.cantidad"] }
+        }
+      }
+    }
+  }}
+])
+
+
+db.collection.aggregate([
+  { "$project": {
+    "count": {
+      "$sum": {
+        "$map": {
+          "input": "$invoice_items",
+          "in": { "$multiply": ["$$this.price", "$$this.quantity"] }
+        }
+      }
+    }
+  }}
+
+
+
+])
+
+
+
+
+
+db.factura.aggregate([
+  { $project: {
+    "CodigoFactura": "$Codigo_factura",
+    "_id": false,
+    "Total": {
+      $sum: {
+        $map: {
+          input: "$Detalle_factura",
+          in: { $multiply: ["$$this.precio", "$$this.cantidad"] }
+        }
+      }
+    }
+  }}
+])
+
+
+
+db.facturas.aggregate(
+[
+{
+$group:
+{ _id:"$codigo", total:
+{$sum:
+{$sum:
+{$map:
+{"input":"$detallefactura", "in":
+{$multiply:["$$this.precio", "$$this.cantidad"]}}}}},
+descuento:
+{$sum:
+{$sum:
+{$map:
+{"input":"$detallefactura", "in":
+{$multiply:["$$this.precio", "$$this.cantidad", 0.05]}}}}},
+
+}
+}
+]
+)

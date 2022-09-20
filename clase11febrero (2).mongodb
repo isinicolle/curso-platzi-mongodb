@@ -1,0 +1,450 @@
+//clase del 11 de febrero
+use("Ejercicio1P2");
+
+db.createCollection("clientes");
+
+db.clientes.insert(
+    {
+        "nombre": "Karla Yadira",
+        "apellido": "Sanchez Ledesma",
+        "fechanacimiento": new Date("11/11/2005"),
+        "correo" : "fade@grreg.com",
+        "direccion" :
+        {
+            "ciudad":"tegucigalpa",
+            "colonia" : "el reparto"
+        }
+    }
+)
+
+
+db.clientes.insert(
+    {
+        "nombre": "Carlos David",
+        "apellido": "Martines Salo",
+        "fechanacimiento": new Date("11/11/2011"),
+        "correo" : "fa34de@gmail.com",
+        "direccion" :
+        {
+            "ciudad":"tegucigalpa",
+            "colonia" : "las casitas"
+        }
+    }
+)
+
+
+db.clientes.insert(
+    {
+        "nombre": "Linda Maria",
+        "apellido": "Rodriguez lainexz",
+        "fechanacimiento": new Date("10/12/2020"),
+        "correo" : "refg@gmail.com",
+        "direccion" :
+        {
+            "ciudad":"tegucigalpa",
+            "colonia" : "miramesi"
+        }
+    }
+)
+
+db.clientes.find()
+
+
+
+
+use("Ejercicio1P2");
+db.createCollection("factura");
+
+db.factura.insert
+(
+    {
+        "codigo":"001",
+        "cliente": "603270e763a39e1eac19225a",
+        "fecha": new Date(),
+        "detallefactura":
+        [
+            {codigoproducto:1,nombreproducto: "manzanas",precio: 12.00,cantidad:5},
+            {codigoproducto:2,nombreproducto: "zanahoria",precio: 12.00,cantidad:3},
+            {codigoproducto:3,nombreproducto: "aguacate",precio: 15.00,cantidad:6},
+            {codigoproducto:4,nombreproducto: "salsa de tomate",precio: 16.00,cantidad:7},
+            {codigoproducto:5,nombreproducto: "helados",precio: 40.00,cantidad:4}
+        ]
+    }
+)
+
+db.factura.insert
+(
+    {
+        "codigo":"003",
+        "cliente": "6032714b5a18e21eac1075da",
+        "fecha": new Date(),
+        "detallefactura":
+        [
+            {codigoproducto:11,nombreproducto: "jugo de naranja",precio: 12.00,cantidad:1},
+            {codigoproducto:12,nombreproducto: "lechuga",precio: 10.00,cantidad:1},
+            {codigoproducto:13,nombreproducto: "sandiwch",precio: 12.00,cantidad2:6},
+            {codigoproducto:14,nombreproducto: "camisa",precio: 16.00,cantidad:2},
+            {codigoproducto:15,nombreproducto: "perfume",precio: 20.00,cantidad:1}
+        ]
+    }
+)
+
+
+//agregarle el tipo de cliente
+db.clientes.update
+(
+{ "_id": ObjectId("603270e763a39e1eac19225a")
+}, {$set: { "tipo": "premium"}}
+)
+
+
+db.clientes.update
+(
+{ "_id": ObjectId("6032713806e2121eac4f038c")
+}, {$set: { "tipo": "premium"}}
+)
+
+
+db.clientes.update
+(
+{ "_id": ObjectId("6032714b5a18e21eac1075da")
+}, {$set: { "tipo": "premium"}}
+)
+
+
+//ciclo foreach
+
+
+db.clientes.find().limit(2).forEach(function(nombres)
+{
+    print("los clientes: "+nombres.nombre+" "+nombres.apellido);
+
+})
+
+//concatenando nombre 
+
+
+//multiplicar los detalles de la factura
+//sacar el total de la factura del cliente
+
+db.factura.find()
+
+db.factura.aggregate(
+    [
+        {
+            $group:
+            {
+                _id:"$codigo",
+                total:{
+                    $sum:{$sum:{$map:{"input":"$detallefactura",
+                    "in":
+                    {
+                        $multiply:["$$this.precio","$$this.cantidad"]
+                    }}}}
+                }
+            }
+        }
+    ]
+)
+
+
+
+db.factura.aggregate(
+    [
+        {$unwind: "$detallefactura"},
+        {$group: {
+            _id:"$codigo",
+            total: 
+            {
+                $sum:
+                {
+                    $sum: 
+                    {
+                        $multiply:
+                        [
+                            "$detallefactura.precio",
+                            "$detallefactura.cantidad"
+                        ]
+                    }
+                }
+            }
+        }}
+    ]
+)
+
+
+//total = (cantidad*precio) - (cantidad*precio*descuento)
+
+
+db.factura.aggregate(
+    [
+        {
+            $unwind: "$detallefactura"
+        },
+        {
+        $group: 
+        {
+            _id:"$codigo",
+            total: {$sum:{$subtract:
+                    [{$multiply:["$detallefactura.precio","$detallefactura.cantidad"]  },
+                    {$multiply:["$detallefactura.precio","$detallefactura.cantidad",0.05]}]}
+                
+            }
+        }}
+    ]
+)
+//mostrar el totla de una factura
+
+db.factura.aggregate
+(
+    [
+        {$unwind: "$detallefactura"},
+        {$group:{
+            _id:"$codigo",
+            total:
+            {
+                $sum:{$sum:{$multiply:["$detallefactura.precio","$detallefactura.cantidad"]}}
+            },
+            descuento:{$sum:{$sum:{$multiply:["$detallefactura.precio","$detallefactura.cantidad",0.05]}}}
+        }},
+        {
+            $project:
+            {
+                totaldescuento:
+                {
+                    $subtract:["$total","$descuento"]
+                }
+            }
+        }
+    ]
+)
+
+//mostrar facturas menores a 700
+db.factura.aggregate
+(
+    [
+        {$unwind: "$detallefactura"},
+        {$group:{
+            _id:"$codigo",
+            total:
+            {
+                $sum:{$sum:{$multiply:["$detallefactura.precio","$detallefactura.cantidad"]}}
+            },
+            descuento:{$sum:{$sum:{$multiply:["$detallefactura.precio","$detallefactura.cantidad",0.05]}}}
+        }},
+        {
+            $project:
+            {
+                totaldescuento:
+                {
+                    $subtract:["$total","$descuento"]
+                }
+            }
+        },
+        {
+            $match: 
+            {
+                totaldescuento:
+                {
+                    $lt:700
+                }
+            }
+        }
+    ]
+)
+
+
+//mostrar factura de 700 a 900
+
+db.factura.aggregate
+(
+    [
+        {$unwind: "$detallefactura"},
+        {$group:{
+            _id:"$codigo",
+            total:
+            {
+                $sum:{$sum:{$multiply:["$detallefactura.precio","$detallefactura.cantidad"]}}
+            },
+            descuento:{$sum:{$sum:{$multiply:["$detallefactura.precio","$detallefactura.cantidad",0.05]}}}
+        }},
+        {
+            $project:
+            {
+                totaldescuento:
+                {
+                    $subtract:["$total","$descuento"]
+                }
+            }
+        },
+        {
+            $match: 
+            {
+                totaldescuento:
+                {
+                    $gt:700,$lte:900
+                }
+            }
+        }
+    ]
+)
+
+
+//mostrar edades de los clientes , nombre , apellido
+//filtrar clientes por su nombre apellido y edad
+
+db.clientes.find()
+
+
+db.clientes.aggregate(
+    [
+        {
+            $project:
+            {
+                _id:
+                {
+                    nombre:"$nombre",
+                    apellido: "$apellido"
+                },
+                anio1: {$year:"$fechanacimiento"},
+                anio2:{$year:new Date()}
+            }
+        },
+        {
+            $project:
+            {
+                edaddelcliente:
+                {
+                    $subtract:
+                    ["$anio2","$anio1"]
+                }
+            }
+        }
+    ]
+)
+
+
+//mostrar las edades actuales de los clientes que se concatene
+//el nombre , apellido y correo
+
+db.clientes.aggregate(
+    [
+        {
+            $project:
+            {
+                _id:
+                {
+                    cliente:{
+                        $concat:["$nombre"," ","$apellido"," ","$correo"]
+                    }
+                },
+                anio1: {$year:"$fechanacimiento"},
+                anio2:{$year:new Date()}
+            }
+        },
+        {
+            $project:
+            {
+                edaddelcliente:
+                {
+                    $subtract:
+                    ["$anio2","$anio1"]
+                }
+            }
+        }
+    ]
+)
+
+//mostrar las edades actuales de los clientes que se concatene
+//el nombre , apellido y correo los mayores a 40
+
+
+db.clientes.aggregate(
+    [
+        {
+            $project:
+            {
+                _id:
+                {
+                    cliente:{
+                        $concat:["$nombre"," ","$apellido"," ","$correo"]
+                    }
+                },
+                anio1: {$year:"$fechanacimiento"},
+                anio2:{$year:new Date()}
+            }
+        },
+        {
+            $project:
+            {
+                edaddelcliente:
+                {
+                    $subtract:
+                    ["$anio2","$anio1"]
+                }
+            }
+        },
+        {$match:{edaddecliente:{$gt:40}}}
+    ]
+)
+
+
+//mostrar el producto 1 de su registro de todos los
+//detalles factura que aparecen 
+db.factura.find(
+    {
+        "detallefactura.codigoproducto":1
+    },
+    {
+        _id:false,
+        detallefactura:
+        {
+            $elemMatch:
+            {
+                
+                    codigoproducto:1
+                
+            }
+        }
+    }
+)
+
+db.factura.find()
+
+//de la consulta anterior sean dos productos
+
+db.factura.find(
+    {
+        "detallefactura.codigoproducto":
+        {
+            $in:[11,1]
+        }},
+        {
+            _id:false,
+            detallefactura: {
+                $elemMatch:
+                {
+                    codigoproducto:
+                    {
+                        $in:[11,1]
+                    }
+                }
+            }
+        }
+    
+)
+
+
+db.factura.find(
+    {
+        "detallefactura.codigoproducto":
+        {$in:[11,1]}
+    },
+    {_id:false,
+    "detallefactura.$":true}
+)
+
+db.clientes.find()
+
+//actualizar la coleccion de clientes , la cual es actualizar
+//el campo sexo en masculino a clientes que sean tipo premium

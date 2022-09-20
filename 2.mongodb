@@ -1,0 +1,194 @@
+
+use('computertecnology');
+
+
+
+//Mostrar los totales de factura con el descuento, lo cual el descuento va a depender de:
+// Si es mayor a 700 el descuento es del 10% de lo contrario es del 5%
+
+
+db.clientes.find()
+db.empleados.find()
+db.productos.find()
+db.ventas.find()
+
+
+db.factura.aggregate
+(
+[
+{$unwind: "$detallefactura"}, {$group:{ _id:"$codigo", total:
+{
+$sum:{$sum:{$multiply:["$detallefactura.precio","$detallefactura.cantidad"]}}
+},descuento:{$sum:{$sum:{$multiply:["$detallefactura.precio","$detallefactura.cantidad",0.05]}}}
+}}, {
+$project:
+{
+totaldescuento:
+{
+$subtract:["$total","$descuento"]
+}
+}
+},{
+$match:
+{
+totaldescuento:
+{
+$cond:[{$eq:["$tipo","premium"]}, "15%","5%"]$gt:700,$lte:900
+}
+}
+}
+]
+)
+
+
+db.clientes.aggregate(
+{
+$project:
+{ _id:
+{
+clientes:{$concat:["$nombre"," ","$apellido"]}
+},descuento:
+{
+$cond:[{$eq:["$tipo","premium"]}, "15%","5%"]
+}
+}
+}
+)
+
+
+db.ventas.aggregate(
+{$unwind:"$detalleventa"},
+{$group:
+  {_id:"$codigoventa",subtotal:{$sum:
+    {$sum:{$multiply:["$detalleventa.precio","$detalleventa.cantidad"]}}}
+  }
+},
+{$match:{subtotal:{$gt:700}}},
+{$project:
+    {subtotal:"$subtotal",descuento:{$multiply:["$subtotal", "$descuento"]}    }
+},
+{$project:
+  {subtotal:"$subtotal",total:{$subtract:["$subtotal","$descuento"]}}
+},
+{$project:
+    {
+        descuento:
+{
+        $cond:[{$eq:["$subtotal",$gte:700]}, 0.1,0.05]
+     }
+}
+)
+
+
+
+
+
+
+db.clientes.aggregate(
+{
+$project:
+{ _id:
+{
+clientes:{$concat:["$nombre"," ","$apellido"]}
+},descuento:
+{
+$cond:[{$eq:["$subtotal",$gte:700]}, 0.1,0.05]
+}
+}
+}
+)
+
+
+db.empleados.aggregate(
+[
+{
+$project:
+{ _id:
+{
+nombre:"$nombreempleado", apellido: "$apellidoempleado"
+},anio1: {$year:"$fechaingreso"}, anio2:{$year:new Date()}
+}
+},{
+$project:
+{
+anioslaborados:
+{
+$subtract:
+["$anio2","$anio1"]
+}
+}
+}
+,{$project:{aumento:{
+$switch:{branches:[
+{case: {$and:[{$gte:["$anioslaborados",2]},{$lte:["$anioslaborados",5]}]},
+then:"5%"},
+{case:{$and:[{$gte:["$anioslaborados",6]},{$lte:["$anioslaborados",
+12]}]},
+then:"10%"},
+{case:{$gte:["$anioslaborados",13]},
+then:"15%"}],
+default:"sin aumento"
+}}}}]
+)
+
+db.ventas.find()
+
+db.ventas.aggregate(
+  {$unwind:"$detalleventa"},
+  {$group:{_id:"$codigoventa",subtotal:{$sum:{$sum:{$multiply:["$detalleventa.precio","$detalleventa.cantidad"]}}}}},
+  {$project:{subtotal:"$subtotal",descuento:{$cond:[
+    {$gte:["$subtotal",7000]}
+    ,{$multiply:["$subtotal",0.1]},
+    {$multiply:["$subtotal",0.05]}
+  ]
+}}},
+  {$project:{subtotal:"$subtotal",descuento:"$descuento",Total:{$subtract:["$subtotal","$descuento"]}}},
+)
+
+
+db.ventas.aggregate(
+[
+{
+$group:
+{ _id:"$codigo", total:{
+$sum:{$sum:{$map:{"input":"$detallefactura", "in":
+{
+$multiply:["$$this.precio","$$this.cantidad"]
+}}}}
+}
+}
+}
+]
+)
+
+
+db.ventas.aggregate(
+[
+{
+$group:{
+_id:"$fechaventa",
+Total:{$sum:{$sum:{$map:{"input":"$detalleventa",
+"in":{$multiply:["$$this.precio","$$this.cantidad"]}}}}}
+}
+}
+]
+)
+
+
+db.factura.aggregate(
+[
+{$unwind: "$detallefactura"}, {$group: { _id:"$codigo", total:
+{
+$sum:
+{
+$sum:
+{
+$multiply:
+[ "$detallefactura.precio", "$detallefactura.cantidad"
+]
+}
+}
+}
+}}
+]
+)
